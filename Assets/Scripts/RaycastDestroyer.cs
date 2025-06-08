@@ -1,13 +1,11 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Raycast : MonoBehaviour
+public class RaycastDestroyer : MonoBehaviour
 {
     [SerializeField] private Camera _camera;
     [SerializeField] private float _maxDistance = 10f;
 
-    void Update()
+    private void Update()
     {
         Ray _ray = _camera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -15,11 +13,11 @@ public class Raycast : MonoBehaviour
 
         if (Physics.Raycast(_ray, out hit, _maxDistance))
         {
-            Exploder objectHit = hit.collider.gameObject.GetComponent<Exploder>();
+            Cube hittedCube = hit.collider.gameObject.GetComponent<Cube>();
 
-            if (objectHit != null)
+            if (hittedCube != null)
             {
-                objectHit.Hitted();
+                hittedCube.Destroy();
             }
         }
     }

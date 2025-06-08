@@ -1,52 +1,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
+
 public class Exploder : MonoBehaviour
 {
-    [SerializeField] private GameObject _currentObject;
-    [SerializeField] private float _explosionForce;
-    [SerializeField] private int _multiplyDegree = 1;
+    [SerializeField] private float _explosionForce = 50f;
 
-    private int _minObjectsCount = 2;
-    private int _maxObjectsCount = 6;
-    private float _explosionRadius;
-    private Multiplyer _multiplier = new Multiplyer();
-
-
-    private void Awake()
+    public void Explode(float explosionRadius)
     {
-        _explosionRadius = _currentObject.transform.localPosition.x / 2;
-    }
-
-    public void Hitted()
-    {
-        if (_multiplier.TryMultiply(_multiplyDegree))
+        foreach (Rigidbody ExplodableObject in GetExplodableObjects(explosionRadius))
         {
-            _multiplyDegree *= 2;
-            transform.localScale -= (Vector3.one / _multiplyDegree);
-
-            for (int i = 1; i <= Random.Range(_minObjectsCount, _maxObjectsCount); i++)
-            {
-                Instantiate(transform);
-            }
-
-            Explode();
-        }
-
-        Destroy(gameObject);
-    }
-
-    private void Explode()
-    {
-        foreach (Rigidbody ExplodableObject in GetExplodableObjects())
-        {
-            ExplodableObject.AddExplosionForce(_explosionForce, transform.position, _explosionRadius);
+            ExplodableObject.AddExplosionForce(_explosionForce, transform.position, explosionRadius);
         }
     }
 
-    private List<Rigidbody> GetExplodableObjects()
+    private List<Rigidbody> GetExplodableObjects(float explosionRadius)
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position, _explosionRadius);
+        Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius);
 
         List<Rigidbody> ExplodableObjects = new List<Rigidbody>();
 
@@ -60,5 +31,4 @@ public class Exploder : MonoBehaviour
 
         return ExplodableObjects;
     }
-
 }
