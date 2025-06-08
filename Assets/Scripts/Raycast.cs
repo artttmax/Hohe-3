@@ -2,15 +2,14 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RaycastDrawer : MonoBehaviour
+public class Raycast : MonoBehaviour
 {
     [SerializeField] private Camera _camera;
-    [SerializeField] private Ray _ray;
     [SerializeField] private float _maxDistance = 10f;
 
     void Update()
     {
-        _ray = _camera.ScreenPointToRay(Input.mousePosition);
+        Ray _ray = _camera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         Debug.DrawRay(_ray.origin, _ray.direction * _maxDistance, Color.gray);
 
