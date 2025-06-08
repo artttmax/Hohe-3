@@ -4,6 +4,8 @@ public class CubeSpawner : MonoBehaviour
 {
     [SerializeField] private int _multiplyDegree = 1;
     [SerializeField] private int _multiplyRatio = 2;
+    [SerializeField] private int _explosionForce = 100;
+    [SerializeField] private int _explosionRadius = 2;
 
     private int _minChanceForMultiply = 0;
     private int _maxChanceForMultiply = 100;
@@ -24,6 +26,10 @@ public class CubeSpawner : MonoBehaviour
                 Instantiate(transform);
                 
             }
+        }
+        else
+        {
+            GetComponent<Exploder>().Explode(_explosionForce * _multiplyRatio, _explosionRadius * _multiplyRatio);
         }
     }
 }

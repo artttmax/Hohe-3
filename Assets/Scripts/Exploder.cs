@@ -5,17 +5,15 @@ using UnityEngine;
 
 public class Exploder : MonoBehaviour
 {
-    [SerializeField] private float _explosionForce = 50f;
-
-    public void Explode(float explosionRadius)
+    public void Explode(int explosionForce, int explosionRadius)
     {
         foreach (Rigidbody ExplodableObject in GetExplodableObjects(explosionRadius))
         {
-            ExplodableObject.AddExplosionForce(_explosionForce, transform.position, explosionRadius);
+            ExplodableObject.AddExplosionForce(explosionForce, transform.position, explosionRadius);
         }
     }
 
-    private List<Rigidbody> GetExplodableObjects(float explosionRadius)
+    private List<Rigidbody> GetExplodableObjects(int explosionRadius)
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius);
 
