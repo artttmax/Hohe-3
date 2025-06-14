@@ -1,23 +1,26 @@
+using System;
 using UnityEngine;
 
-public class RaycastDestroyer : MonoBehaviour
+public class Raycaster : MonoBehaviour
 {
     [SerializeField] private Camera _camera;
     [SerializeField] private float _maxDistance = 10f;
 
+    public event Action<Cube> CubeHitted;
+
     private void Update()
     {
         Ray _ray = _camera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
+
         Debug.DrawRay(_ray.origin, _ray.direction * _maxDistance, Color.gray);
 
-        if (Physics.Raycast(_ray, out hit, _maxDistance))
+        if (Physics.Raycast(_ray, out RaycastHit _hit, _maxDistance))
         {
-            Cube hittedCube = hit.collider.gameObject.GetComponent<Cube>();
+            GameObject gameObject = _hit.collider.gameObject;
 
-            if (hittedCube != null)
+            if (gameObject.TryGetComponent(out Cube cube))
             {
-                hittedCube.Destroy();
+                CubeHitted?.Invoke(cube);
             }
         }
     }

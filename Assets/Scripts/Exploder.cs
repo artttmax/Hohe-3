@@ -2,10 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-
 public class Exploder : MonoBehaviour
 {
-    public void Explode(int explosionForce, int explosionRadius)
+    public void Explode(float explosionForce, float explosionRadius)
     {
         foreach (Rigidbody ExplodableObject in GetExplodableObjects(explosionRadius))
         {
@@ -13,7 +12,7 @@ public class Exploder : MonoBehaviour
         }
     }
 
-    private List<Rigidbody> GetExplodableObjects(int explosionRadius)
+    private List<Rigidbody> GetExplodableObjects(float explosionRadius)
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius);
 
