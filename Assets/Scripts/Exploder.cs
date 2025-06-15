@@ -4,11 +4,22 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Exploder : MonoBehaviour
 {
-    public void Explode(float explosionForce, Vector3 position, float explosionRadius)
+    [SerializeField] private float _explosionForce = 500f;
+    [SerializeField] private float _explosionRadius = 20f;
+
+    public void Explode(Vector3 position, List<Rigidbody> ExplodableObjects)
     {
-        foreach (Rigidbody ExplodableObject in GetExplodableObjects(explosionRadius, position))
+        foreach (Rigidbody ExplodableObject in ExplodableObjects)
         {
-            ExplodableObject.AddExplosionForce(explosionForce, position, explosionRadius);
+            ExplodableObject.AddExplosionForce(_explosionForce, position, _explosionRadius);
+        }
+    }
+
+    public void Explode(Vector3 position, int _multiplyDegree)
+    {
+        foreach (Rigidbody ExplodableObject in GetExplodableObjects(_explosionRadius * _multiplyDegree, position))
+        {
+            ExplodableObject.AddExplosionForce(_explosionForce * _multiplyDegree, position, _explosionRadius * _multiplyDegree);
         }
     }
 
