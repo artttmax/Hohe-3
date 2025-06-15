@@ -10,11 +10,11 @@ public class Raycaster : MonoBehaviour
 
     private void Update()
     {
-        Ray _ray = _camera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 
-        Debug.DrawRay(_ray.origin, _ray.direction * _maxDistance, Color.gray);
+        Debug.DrawRay(ray.origin, ray.direction * _maxDistance, Color.gray);
 
-        if (Physics.Raycast(_ray, out RaycastHit _hit, _maxDistance))
+        if (Physics.Raycast(ray, out RaycastHit _hit, _maxDistance))
         {
             GameObject gameObject = _hit.collider.gameObject;
 
